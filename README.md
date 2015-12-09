@@ -1,10 +1,8 @@
 # Web map to show snow removal priority streets in Georgetown, KY
 
-Adapted from [this map](http://lfucg.github.io/snow-removal/) created by LFUCG ([Code](https://github.com/lfucg/snow-removal))
-
 ## How to do stuff
 
-### Convert shapefile to geojson & topojson with Mapshaper
+### Convert shapefile to geojson & topojson with [Mapshaper](https://github.com/mbloch/mapshaper)
 
 `mapshaper data.shp -o data.geojson format=GeoJSON`
 
@@ -43,6 +41,8 @@ For the GeoJSON file, these are the simplified classification codes
 
 ##### Field Calculation for legend
 
+*In ArcGIS*
+
 1. Create a new field called `legend`. Make sure it's an integer.
 2. Right click the field, select **Field Calculator**.
 3. Set **Parser** to `Python`
@@ -75,11 +75,9 @@ This map is available at [http://gscplanning.github.io/snow-removal/](http://gsc
 
 ### Contributors
 
-Big thanks to Chris Doerge and the GIS team at LFUCG for providing the data and helping to understand it.
+This code was written for the City of Georgetown by Ryan Cooper ([Email](mailto:rcooper@gscplanning.com) | [GitHub](https://github.com/maptastik) | [Twitter](https://twitter.com/maptastik)).
 
-Also thanks to Erik Schwartz for open sourcing the LFUCG code for us to use here in Scott County.
-
-This code was adapted for the City of Georgetown by Ryan Cooper ([Email](mailto:rcooper@gscplanning.com) | [GitHub](https://github.com/maptastik) | [Twitter](https://twitter.com/maptastik)).
+Originally a fork of [this map](http://lfucg.github.io/snow-removal/) created by LFUCG ([Code](https://github.com/lfucg/snow-removal)), this map of snow removal prioritization and hazards in Georgetown was rebuilt using Leaflet and Bootstrap. Thanks to LFUCG for the inspiration! In the spirit of this map's origins, please feel free to fork and adapt this code for your own map!
 
 
 
