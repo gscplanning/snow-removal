@@ -133,7 +133,7 @@ function hillsStyle(feature) {
 	}
 }
 
-hills = new L.GeoJSON.AJAX("../data/hills.geojson", {
+hills = new L.GeoJSON.AJAX("data/hills.geojson", {
 	style: hillsStyle
 });
 
@@ -171,7 +171,7 @@ priority = new omnivore.topojson("data/Street_SnowPriority_GTOWN_20151119_WGS84.
 	.addTo(map);
 
 // BRIDGES LAYER
-bridges = new L.GeoJSON.AJAX("../data/bridges.geojson", {
+bridges = new L.GeoJSON.AJAX("data/bridges.geojson", {
 	pointToLayer: function(feature, latlng) {
 		var bridgesIcon = L.icon({
 			iconUrl: 'img/bridges-marker.svg',
