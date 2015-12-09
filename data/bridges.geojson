@@ -1,0 +1,4 @@
+{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"TYPE":"bridge"},"geometry":{"type":"Point","coordinates":[-84.52735683515483,38.235256963587666]}},
+{"type":"Feature","properties":{"TYPE":"bridge"},"geometry":{"type":"Point","coordinates":[-84.51998299731976,38.27105517409747]}},
+{"type":"Feature","properties":{"TYPE":"bridge"},"geometry":{"type":"Point","coordinates":[-84.54861952123089,38.20374620512094]}},
+{"type":"Feature","properties":{"TYPE":"bridge"},"geometry":{"type":"Point","coordinates":[-84.54820367689649,38.21660666202173]}}]}
