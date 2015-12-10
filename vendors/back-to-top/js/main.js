@@ -1,4 +1,6 @@
-jQuery(document).ready(function($){
+// Adapted from code written by Claudia Romano
+// https://codyhouse.co/gem/back-to-top/
+$(document).ready(function($){
 	// browser window scroll (in pixels) after which the "back to top" link is shown
 	var offset = 300,
 		//browser window scroll (in pixels) after which the "back to top" link opacity is reduced

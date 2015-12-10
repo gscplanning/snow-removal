@@ -1,22 +1,13 @@
-
 // MAP
 var map = L.map('map')
 	.setView([38.209985, -84.559826], 14);
 
-var north = 38.4927902222;
-var south = 38.1131782532;
-var east = -84.4018173218;
-var west = -84.7400054932;
-var southWest = L.latLng(south, west);
-var northEast = L.latLng(north, east);
-var bounds = L.latLngBounds(southWest, northEast);
-
-mapboxGeocoderKey = 'pk.eyJ1IjoiZ3NjcGxhbm5pbmciLCJhIjoiRVZMNXpsQSJ9.5OxUlJTCDplPkdkKNlB91A';
+var mapboxKey = 'pk.eyJ1IjoiZ3NjcGxhbm5pbmciLCJhIjoiRVZMNXpsQSJ9.5OxUlJTCDplPkdkKNlB91A';
 
 var geocoderOptions = {
 	position: 'topleft',
 	placeholder: "Search an address...",
-	geocoder: L.Control.Geocoder.mapbox(mapboxGeocoderKey)
+	geocoder: L.Control.Geocoder.mapbox(mapboxKey)
 }
 
 var geocoder = new L.Control.geocoder(geocoderOptions).addTo(map);
@@ -44,27 +35,28 @@ var aerialGray = new L.tileLayer.grayscale('http://api.tiles.mapbox.com/v4/{id}/
 	quotaDividerTune: 9
 });
 
+// Basemap switcher
 var iconLayersControl = new L.Control.IconLayers(
 		[
 			{
 				title: 'Dark Base',
 				layer: darkBase,
-				icon: './img/dark-matter-thumb.gif'
+				icon: 'resources/images/dark-matter-thumb.gif'
 			},
 			{
 				title: 'Light Base',
 				layer: lightBase,
-				icon: './img/positron-thumb.gif'
+				icon: 'resources/images/positron-thumb.gif'
 			},
 			{
 				title: 'Aerial',
 				layer: aerial,
-				icon: './img/aerial-thumb.gif'
+				icon: 'resources/images/aerial-thumb.gif'
 			},
 			{
 				title: 'Aerial (Gray)',
 				layer: aerialGray,
-				icon: './img/aerial-gray-thumb.gif'
+				icon: 'resources/images/aerial-gray-thumb.gif'
 			}
 		],
 		{
@@ -73,10 +65,6 @@ var iconLayersControl = new L.Control.IconLayers(
 		}
 	);
 iconLayersControl.addTo(map)
-
-iconLayersControl.on('activelayerchange', function(e) {
-    console.log('layer switched', e.layer);
-});
 
 // FEATURE LAYERS
 var zones;
@@ -92,13 +80,13 @@ zones = new L.TileLayer('http://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?acc
 	attribution: 'Imagery from <a href="http://mapbox.com/about/maps/">MapBox</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 	subdomains: 'abcd',
 	id: 'gscplanning.plowZones',
-	accessToken: 'pk.eyJ1IjoiZ3NjcGxhbm5pbmciLCJhIjoiRVZMNXpsQSJ9.5OxUlJTCDplPkdkKNlB91A',
+	accessToken: mapboxKey,
 	maxNativeZoom: 17,
 	maxZoom: 18,
 	zIndex: 99
 });
 
-// Incase we decide to go back to drawing this as a feature layer
+// We used a tile layer for this, but you could also use Geo- or TopoJSON for a feature layer
 
 // function zonesColor(d){
 // 	return d == 1 ? '#E74C3C':
@@ -120,7 +108,7 @@ zones = new L.TileLayer('http://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?acc
 // 	style: zonesStyle
 // });
 
-// zones = new omnivore.topojson("../data/gtownPlowZones_simple.topojson", null, zonesGeoJSON);
+// zones = new omnivore.topojson("resources/data/gtownPlowZones_simple.topojson", null, zonesGeoJSON);
 
 // HILLS LAYER
 function hillsStyle(feature) {
@@ -133,7 +121,7 @@ function hillsStyle(feature) {
 	}
 }
 
-hills = new L.GeoJSON.AJAX("data/hills.geojson", {
+hills = new L.GeoJSON.AJAX("resources/data/hills.geojson", {
 	style: hillsStyle
 });
 
@@ -167,14 +155,14 @@ var priorityGeoJSON = L.geoJson(null, {
 	style: priorityStyle
 });
 
-priority = new omnivore.topojson("data/Street_SnowPriority_GTOWN_20151119_WGS84.topojson", null, priorityGeoJSON)
+priority = new omnivore.topojson("resources/data/Street_SnowPriority_GTOWN_20151119_WGS84.topojson", null, priorityGeoJSON)
 	.addTo(map);
 
 // BRIDGES LAYER
-bridges = new L.GeoJSON.AJAX("data/bridges.geojson", {
+bridges = new L.GeoJSON.AJAX("resources/data/bridges.geojson", {
 	pointToLayer: function(feature, latlng) {
 		var bridgesIcon = L.icon({
-			iconUrl: 'img/bridges-marker.svg',
+			iconUrl: 'resources/images/bridges-marker.svg',
 			iconSize: [20,20],
 		})
 		var bridgesMarker = L.marker(latlng, {
@@ -185,10 +173,10 @@ bridges = new L.GeoJSON.AJAX("data/bridges.geojson", {
 });
 
 // CURVES LAYER
-curves = new L.GeoJSON.AJAX("data/curves.geojson", {
+curves = new L.GeoJSON.AJAX("resources/data/curves.geojson", {
 	pointToLayer: function(feature, latlng) {
 		var curvesIcon = L.icon({
-			iconUrl: 'img/curves-marker.svg',
+			iconUrl: 'resources/images/curves-marker.svg',
 			iconSize: [18,18],
 		})
 		var curvesMarker = L.marker(latlng, {
@@ -199,10 +187,10 @@ curves = new L.GeoJSON.AJAX("data/curves.geojson", {
 });
 
 // EMERGENCY SERVICES LAYER
-emergencyServices = new L.GeoJSON.AJAX("data/emergency_services.geojson", {
+emergencyServices = new L.GeoJSON.AJAX("resources/data/emergency_services.geojson", {
 	pointToLayer: function(feature, latlng) {
 		var emergencyServicesIcon = L.icon({
-			iconUrl: 'img/emergency-services-marker.svg',
+			iconUrl: 'resources/images/emergency-services-marker.svg',
 			iconSize: [20,20],
 		})
 		var emergencyServicesMarker = L.marker(latlng, {
@@ -213,10 +201,10 @@ emergencyServices = new L.GeoJSON.AJAX("data/emergency_services.geojson", {
 });
 
 // SCHOOLS LAYER
-schools = new L.GeoJSON.AJAX("data/schools.geojson", {
+schools = new L.GeoJSON.AJAX("resources/data/schools.geojson", {
 	pointToLayer: function(feature, latlng) {
 		var schoolsIcon = L.icon({
-			iconUrl: 'img/schools-marker.svg',
+			iconUrl: 'resources/images/schools-marker.svg',
 			iconSize: [16,16],
 		})
 		var schoolsMarker = L.marker(latlng, {
@@ -226,15 +214,16 @@ schools = new L.GeoJSON.AJAX("data/schools.geojson", {
 	}
 });
 
+// Legend patches
 var priorityLegend = ('<div class="priorityLegend"><div><svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #2196F3;stroke-width:1.75;" transform="rotate(90 8 8)"/></svg> Emergency</div><div><svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #F44336;stroke-width:1.75;" transform="rotate(90 8 8)"/></svg> Secondary</div><div><svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #4CAF50;stroke-width:1.75;" transform="rotate(90 8 8)"/></svg> Tertiary</div><div><svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #FFEE58;stroke-width:1.75;stroke-opacity:0.5;" transform="rotate(90 8 8)"/></svg> Not Prioritized</div><div><svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #9E9E9E;stroke-width:1.75;stroke-opacity:0.5;" transform="rotate(90 8 8)"/></svg> Not Plowed by City</div></div>')
 var zonesLegend = ('<div class="zonesLegend"><div><svg height="16" width="16"><rect width="16" height="16" style="fill:#E74C3C;fill-opacity:0.25"/></svg> Zone 1</div><div><svg height="16" width="16"><rect width="16" height="16" style="fill:#2ECC71;fill-opacity:0.25"/></svg> Zone 2</div><div><svg height="16" width="16"><rect width="16" height="16" style="fill:#3498DB;fill-opacity:0.25"/></svg> Zone 3</div><div><svg height="16" width="16"><rect width="16" height="16" style="fill:#9B59B6;fill-opacity:0.25"/></svg> Zone 4</div></div>')
-var bridgesLegend = ('<div class="bridgesLegend" style="padding-left: 3px; padding-top: 3px"><img src="img/bridges-marker.svg" height="20" width="20"></div>')
-var curvesLegend = ('<div class="curvesLegend" style="padding-left: 3px; padding-top: 3px"><img src="img/curves-marker.svg" height="18" width="18"></div>')
-var emergencyServicesLegend = ('<div class="emergencyServicesLegend" style="padding-left: 3px; padding-top: 3px"><img src="img/emergency-services-marker.svg" height="20" width="20"></div>')
+var bridgesLegend = ('<div class="bridgesLegend" style="padding-left: 3px; padding-top: 3px"><img src="resources/images/bridges-marker.svg" height="20" width="20"></div>')
+var curvesLegend = ('<div class="curvesLegend" style="padding-left: 3px; padding-top: 3px"><img src="resources/images/curves-marker.svg" height="18" width="18"></div>')
+var emergencyServicesLegend = ('<div class="emergencyServicesLegend" style="padding-left: 3px; padding-top: 3px"><img src="resources/images/emergency-services-marker.svg" height="20" width="20"></div>')
 var hillsLegend = ('<div class="hillsLegend" style="padding-left: 3px; padding-top: 3px"><svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #fff;stroke-width:5;" stroke-dasharray="3, 4" stroke-linecap="butt" transform="rotate(90 8 8)"/></svg></div>')
-var schoolsLegend = ('<div class="schoolsLegend" style="padding-left: 3px; padding-top: 3px"><img src="img/schools-marker.svg" height="16" width="16"></div>')
+var schoolsLegend = ('<div class="schoolsLegend" style="padding-left: 3px; padding-top: 3px"><img src="resources/images/schools-marker.svg" height="16" width="16"></div>')
 
-// Toggle layers
+// Toggle layers and legend patches
 $( "input" ).click(function( event ) {
     layerClicked = window[event.target.value];
     layerClickedIDValue = event.target.id;
