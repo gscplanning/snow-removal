@@ -1,0 +1,4 @@
+{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"TYPE":"school"},"geometry":{"type":"Point","coordinates":[-84.5561870345352,38.19387731663909]}},
+{"type":"Feature","properties":{"TYPE":"school"},"geometry":{"type":"Point","coordinates":[-84.55750025124078,38.19970401183375]}},
+{"type":"Feature","properties":{"TYPE":"school"},"geometry":{"type":"Point","coordinates":[-84.55895050351626,38.205884844083876]}},
+{"type":"Feature","properties":{"TYPE":"school"},"geometry":{"type":"Point","coordinates":[-84.57247314181984,38.23254425105723]}}]}
