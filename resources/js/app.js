@@ -69,6 +69,7 @@ iconLayersControl.addTo(map)
 // FEATURE LAYERS
 var zones;
 var priority;
+var statePriority;
 var hills;
 var bridges;
 var curves;
@@ -125,7 +126,7 @@ hills = new L.GeoJSON.AJAX("resources/data/hills.geojson", {
 	style: hillsStyle
 });
 
-// PRIORITY LAYERS
+// PRIORITY LAYER
 function priorityColor(d) {
 	return d == 1 ? '#2196F3':
 		d == 2 ? '#F44336':
@@ -137,7 +138,8 @@ function priorityColor(d) {
 
 function priorityOpacity(d) {
 	return d <= 3 ? 1:
-		0.5;
+		d == 4 ? 0.5:
+		0;
 }
 
 function priorityStyle(feature) {
@@ -156,6 +158,45 @@ var priorityGeoJSON = L.geoJson(null, {
 });
 
 priority = new omnivore.topojson("resources/data/Street_SnowPriority_GTOWN_20151119_WGS84.topojson", null, priorityGeoJSON)
+	.addTo(map);
+
+// STATE PRIORITY LAYER
+function statePriorityColor(d) {
+	return d == 'A' ? '#2196F3':
+		d == 'B' ? '#F44336':
+		d == 'C' ? '#4CAF50':
+		d == 'D' ? '#FFEE58':
+		d == 'U' ? '#9E9E9E':
+		"fff";
+}
+
+function statePriorityOpacity(d) {
+	return d == 'A' ? 1:
+		d == 'B' ? 1:
+		d == 'C' ? 1:
+		d == 'D' ? 1:
+		d == 'U' ? 0.5:
+		0;
+}
+
+function statePriorityStyle(feature) {
+	var snicPrior = feature.properties.SNIC_Prior
+	return {
+		weight: 1.25,
+		color: statePriorityColor(snicPrior),
+		opacity: statePriorityOpacity(snicPrior),
+		dashArray: "3, 4",
+		lineCap: "butt",
+		lineJoin: "round"
+	}
+}
+
+var statePriorityGeoJSON = L.geoJson(null, {
+	style: statePriorityStyle,
+	attribution: 'KYTC'
+});
+
+statePriority = new omnivore.topojson("resources/data/Street_SnowPriority_STATE_20151113.topojson", null, statePriorityGeoJSON)
 	.addTo(map);
 
 // BRIDGES LAYER
@@ -215,12 +256,20 @@ schools = new L.GeoJSON.AJAX("resources/data/schools.geojson", {
 });
 
 // Legend patches
-var priorityLegend = ('<div class="priorityLegend"><div><svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #2196F3;stroke-width:1.75;" transform="rotate(90 8 8)"/></svg> Emergency</div><div><svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #F44336;stroke-width:1.75;" transform="rotate(90 8 8)"/></svg> Secondary</div><div><svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #4CAF50;stroke-width:1.75;" transform="rotate(90 8 8)"/></svg> Tertiary</div><div><svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #FFEE58;stroke-width:1.75;stroke-opacity:0.5;" transform="rotate(90 8 8)"/></svg> Not Prioritized</div><div><svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #9E9E9E;stroke-width:1.75;stroke-opacity:0.5;" transform="rotate(90 8 8)"/></svg> Not Plowed by City</div></div>')
+var priorityLegend = ('<div class="priorityLegend"><div><svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #2196F3;stroke-width:1.75;" transform="rotate(90 8 8)"/></svg> Emergency</div><div><svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #F44336;stroke-width:1.75;" transform="rotate(90 8 8)"/></svg> Secondary</div><div><svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #4CAF50;stroke-width:1.75;" transform="rotate(90 8 8)"/></svg> Tertiary</div><div><svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #FFEE58;stroke-width:1.75;stroke-opacity:0.5;" transform="rotate(90 8 8)"/></svg> Not Prioritized</div></div>')
+
+var statePriorityLegend = ('<div class="statePriorityLegend"><div><svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #2196F3;stroke-width:1;" stroke-dasharray="3, 4" transform="rotate(90 8 8)"/></svg> A</div><div><svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #F44336;stroke-width:1;" stroke-dasharray="3, 4" transform="rotate(90 8 8)"/></svg> B</div><div><svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #4CAF50;stroke-width:1;" stroke-dasharray="3, 4" transform="rotate(90 8 8)"/></svg> C</div><div><svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #FFEE58;stroke-width:1;" stroke-dasharray="3, 4" transform="rotate(90 8 8)"/></svg> D</div><div><svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #9E9E9E;stroke-width:1;stroke-opacity:0.5;" stroke-dasharray="3, 4" transform="rotate(90 8 8)"/></svg> U</div>')
+
 var zonesLegend = ('<div class="zonesLegend"><div><svg height="16" width="16"><rect width="16" height="16" style="fill:#E74C3C;fill-opacity:0.25"/></svg> Zone 1</div><div><svg height="16" width="16"><rect width="16" height="16" style="fill:#2ECC71;fill-opacity:0.25"/></svg> Zone 2</div><div><svg height="16" width="16"><rect width="16" height="16" style="fill:#3498DB;fill-opacity:0.25"/></svg> Zone 3</div><div><svg height="16" width="16"><rect width="16" height="16" style="fill:#9B59B6;fill-opacity:0.25"/></svg> Zone 4</div></div>')
+
 var bridgesLegend = ('<div class="bridgesLegend" style="padding-left: 3px; padding-top: 3px"><img src="resources/images/bridges-marker.svg" height="20" width="20"></div>')
+
 var curvesLegend = ('<div class="curvesLegend" style="padding-left: 3px; padding-top: 3px"><img src="resources/images/curves-marker.svg" height="18" width="18"></div>')
+
 var emergencyServicesLegend = ('<div class="emergencyServicesLegend" style="padding-left: 3px; padding-top: 3px"><img src="resources/images/emergency-services-marker.svg" height="20" width="20"></div>')
+
 var hillsLegend = ('<div class="hillsLegend" style="padding-left: 3px; padding-top: 3px"><svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #fff;stroke-width:5;" stroke-dasharray="3, 4" stroke-linecap="butt" transform="rotate(90 8 8)"/></svg></div>')
+
 var schoolsLegend = ('<div class="schoolsLegend" style="padding-left: 3px; padding-top: 3px"><img src="resources/images/schools-marker.svg" height="16" width="16"></div>')
 
 // Toggle layers and legend patches

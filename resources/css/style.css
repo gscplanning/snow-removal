@@ -45,6 +45,9 @@ body {
 	border-radius: 0;
 }
 
+.tab-pane {
+	margin-top: 10px;
+}
 
 .tab-content {
 	overflow: auto;
@@ -53,6 +56,15 @@ body {
 .list-group-item {
 	background-color: transparent;
 	border: 0px;
+}
+
+#sources a {
+	color: #f1c40f;
+}
+
+#sources a:hover {
+	color: #f39c12;
+	text-decoration: none;
 }
 
 #disclaimer {

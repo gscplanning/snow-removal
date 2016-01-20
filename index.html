@@ -40,6 +40,7 @@
 					<!-- Tab headers -->
 					<ul class="nav nav-tabs" role="tablist" id="sidebar-tabs">
 						<li role="presentation" class="active"><a href="#layers" aria-controls="layers" role="tab" data-toggle="tab">Layers</a></li>
+						<li role="presentation"><a href="#sources" aria-controls="layers" role="tab" data-toggle="tab">Sources</a></li>
 						<li role="presentation"><a href="#disclaimer" aria-controls="disclaimer" role="tab" data-toggle="tab">Disclaimer</a></li>
 						</ul>
 					<div class="tab-content">
@@ -49,7 +50,7 @@
 						<ul class="list-group">
 							<li class="list-group-item checkbox priorityItem" id="priorityItem">
 								<input type="checkbox" id="priority" value="priority" name="priority" checked>
-								<label for="priority">Snow Removal Priority</label>
+								<label for="priority">Snow Removal Priority - GEORGETOWN</label>
 								<div class="priorityLegend">
 									<div>
 										<svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #2196F3;stroke-width:1.75;" transform="rotate(90 8 8)"/></svg> Emergency
@@ -63,11 +64,34 @@
 									<div>
 										<svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #FFEE58;stroke-width:1.75;stroke-opacity:0.5;" transform="rotate(90 8 8)"/></svg> Not Prioritized
 									</div>
-									<div>
+									<!-- <div>
 										<svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #9E9E9E;stroke-width:1.75;stroke-opacity:0.5;" transform="rotate(90 8 8)"/></svg> Not Plowed by City
+									</div> -->
+								</div>
+							</li>
+
+							<li class="list-group-item checkbox statePriorityItem" id="statePriorityItem">
+								<input type="checkbox" id="statePriority" value="statePriority" name="statePriority" checked>
+								<label for="statePriority">Snow Removal Priority - STATE</label>
+								<div class="statePriorityLegend">
+									<div>
+										<svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #2196F3;stroke-width:1;" stroke-dasharray="3, 4" transform="rotate(90 8 8)"/></svg> A
+									</div>
+									<div>
+										<svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #F44336;stroke-width:1;" stroke-dasharray="3, 4" transform="rotate(90 8 8)"/></svg> B
+									</div>
+									<div>
+										<svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #4CAF50;stroke-width:1;" stroke-dasharray="3, 4" transform="rotate(90 8 8)"/></svg> C
+									</div>
+									<div>
+										<svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #FFEE58;stroke-width:1;stroke-opacity:0.5;" stroke-dasharray="3, 4" transform="rotate(90 8 8)"/></svg> D
+									</div>
+									<div>
+										<svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #9E9E9E;stroke-width:1.75;stroke-opacity:0.5;" stroke-dasharray="3, 4" transform="rotate(90 8 8)"/></svg> U
 									</div>
 								</div>
 							</li>
+
 							<li class="list-group-item checkbox zonesItem" id="zonesItem">
 								<input type="checkbox" id="zones" value="zones" name="zones">
 								<label for="zones">Snow Removal Zones</label>	
@@ -95,6 +119,19 @@
 								<label for="schools"><span></span> Schools</label>
 							</li>
 						</ul>
+						</div>
+						<!-- Sources tab -->
+						<div role="tabpanel" class="tab-pane" id="sources">
+							<ul>
+								<li><a href="https://github.com/gscplanning/snow-removal/blob/gh-pages/resources/data/Street_SnowPriority_GTOWN_20151119_WGS84.geojson">Snow Removal Priority - GEORGETOWN | GSCPC</a></li>
+								<li><a href="http://services2.arcgis.com/CcI36Pduqd0OR4W9/ArcGIS/rest/services/Snow_Ice_Priority_Routes/FeatureServer">Snow Removal Priority - STATE | KYTC</a></li>
+								<li><a href="https://github.com/gscplanning/snow-removal/blob/gh-pages/resources/data/gtownPlowZones_simple.geojson">Snow Removal Zones | GSCPC</a></li>
+								<li><a href="https://github.com/gscplanning/snow-removal/blob/gh-pages/resources/data/bridges.geojson">Bridges | GSCPC</a></li>
+								<li><a href="https://github.com/gscplanning/snow-removal/blob/gh-pages/resources/data/curves.geojson">Curves | GSCPC</a></li>
+								<li><a href="https://github.com/gscplanning/snow-removal/blob/gh-pages/resources/data/emergency_services.geojson">Emergency Services | GSCPC</a></li>
+								<li><a href="https://github.com/gscplanning/snow-removal/blob/gh-pages/resources/data/hills.geojson">Hills | GSCPC</a></li>
+								<li><a href="https://github.com/gscplanning/snow-removal/blob/gh-pages/resources/data/schools.geojson">Schools | GSCPC</a></li>
+							</ul>
 						</div>
 						<!-- Disclaimer tab -->
 						<div role="tabpanel" class="tab-pane" id="disclaimer">
