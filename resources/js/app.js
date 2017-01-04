@@ -157,7 +157,7 @@ var priorityGeoJSON = L.geoJson(null, {
 	style: priorityStyle
 });
 
-priority = new omnivore.topojson("resources/data/Street_SnowPriority_GTOWN_20151119_WGS84.topojson", null, priorityGeoJSON)
+priority = new omnivore.topojson("resources/data/Street_SnowPriority_GTOWN_20170104_WGS84.topojson", null, priorityGeoJSON)
 	.addTo(map);
 
 // STATE PRIORITY LAYER
@@ -196,7 +196,7 @@ var statePriorityGeoJSON = L.geoJson(null, {
 	attribution: 'KYTC'
 });
 
-statePriority = new omnivore.topojson("resources/data/Street_SnowPriority_STATE_20151113.topojson", null, statePriorityGeoJSON)
+statePriority = new omnivore.topojson("resources/data/Street_SnowPriority_STATE_20170104_WGS84.topojson", null, statePriorityGeoJSON)
 	.addTo(map);
 
 // BRIDGES LAYER
@@ -281,7 +281,7 @@ $( "input" ).click(function( event ) {
     layerClickedItemLegendClass = "." + layerClickedIDValue + "Legend";
 
     if (map.hasLayer(layerClicked)) {
-        map.removeLayer(layerClicked);  
+        map.removeLayer(layerClicked);
         $(layerClickedItemLegendClass).remove()
     }
     else{
