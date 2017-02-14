@@ -1,51 +1,54 @@
+<!DOCTYPE html5>
 <html>
-	<head>
-		<!-- Meta tags -->
-		<meta charset="utf-8" />
-		<title>Snow Removal Priority - Georgetown, KY</title>
-		<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no'>
-		<meta name="description" content="An interactive map of snow removal routes and hazards for the City of Georgetown, KY">
-		<meta name="keywords" content="georgetown, kentucky, snow plan, city of georgetown, map">
-		<meta name="author" content="Georgetown-Scott County Planning Commission GIS">
-		<meta property="og:url" content="http://gis.gscplanning.com/snow-removal/">
 
-		<!-- Stylesheets -->
-		<link rel="stylesheet" type="text/css" href="vendors/leaflet/leaflet.css">
-		<link rel="stylesheet" type="text/css" href="vendors/leaflet-control-geocoder-1.3.2/Control.Geocoder.css">
-		<link rel="stylesheet" type="text/css" href="vendors/Leaflet-IconLayers/iconLayers.css">
-		<link rel="stylesheet" href="vendors/bootstrap-3.3.6-dist/css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/FortAwesome/Font-Awesome/master/css/font-awesome.css">
-		<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/flatlogic/awesome-bootstrap-checkbox/master/awesome-bootstrap-checkbox.css">
-		<link rel="stylesheet" href="vendors/back-to-top/css/style.css">
-		<link rel="stylesheet" href="resources/css/style.css">
+<head>
+	<!-- Meta tags -->
+	<meta charset="utf-8" />
+	<title>Snow Removal Priority - Georgetown, KY</title>
+	<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="description" content="An interactive map of snow removal routes and hazards for the City of Georgetown, KY">
+	<meta name="keywords" content="georgetown, kentucky, snow plan, city of georgetown, map">
+	<meta name="author" content="Georgetown-Scott County Planning Commission GIS">
+	<meta property="og:url" content="http://gis.gscplanning.com/snow-removal/">
 
-		<!-- Add jQuery -->
-		<!-- We add it here to run the preload screen -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<!-- Stylesheets -->
+	<link rel="stylesheet" type="text/css" href="vendors/leaflet/leaflet.css">
+	<link rel="stylesheet" type="text/css" href="vendors/leaflet-control-geocoder-1.3.2/Control.Geocoder.css">
+	<link rel="stylesheet" type="text/css" href="vendors/Leaflet-IconLayers/iconLayers.css">
+	<link rel="stylesheet" href="vendors/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/FortAwesome/Font-Awesome/master/css/font-awesome.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/flatlogic/awesome-bootstrap-checkbox/master/awesome-bootstrap-checkbox.css">
+	<link rel="stylesheet" href="vendors/back-to-top/css/style.css">
+	<link rel="stylesheet" href="resources/css/style.css">
 
-		<!-- Preload screen -->
-		<link rel="stylesheet" type="text/css" href="resources/css/preload.css">
-		<script src="resources/js/preload.js"></script>
-	</head>
-	<body>
-		<!-- Preloader -->
-		<div class="se-pre-con"></div>
-		<div class="container">
-			<div class="row">
-				<!-- Left pane -->
-				<div class="col-md-3 menu">
-					<div id="sidebar-header">
-						<h2>Georgetown Snow Removal Prioritization</h2>
-					</div>
-					<!-- Tab headers -->
-					<ul class="nav nav-tabs" role="tablist" id="sidebar-tabs">
-						<li role="presentation" class="active"><a href="#layers" aria-controls="layers" role="tab" data-toggle="tab">Layers</a></li>
-						<li role="presentation"><a href="#sources" aria-controls="layers" role="tab" data-toggle="tab">Sources</a></li>
-						<li role="presentation"><a href="#disclaimer" aria-controls="disclaimer" role="tab" data-toggle="tab">Disclaimer</a></li>
-						</ul>
-					<div class="tab-content">
-						<!-- Layers tab -->
-						<div role="tabpanel" class="tab-pane active" id="layers">
+	<!-- Add jQuery -->
+	<!-- We add it here to run the preload screen -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+	<!-- Preload screen -->
+	<link rel="stylesheet" type="text/css" href="resources/css/preload.css">
+	<script src="resources/js/preload.js"></script>
+</head>
+
+<body>
+	<!-- Preloader -->
+	<div class="se-pre-con"></div>
+	<div class="container">
+		<div class="row">
+			<!-- Left pane -->
+			<div class="col-md-3 menu">
+				<div id="sidebar-header">
+					<h2>Georgetown Snow Removal Prioritization</h2>
+				</div>
+				<!-- Tab headers -->
+				<ul class="nav nav-tabs" role="tablist" id="sidebar-tabs">
+					<li role="presentation" class="active"><a href="#layers" aria-controls="layers" role="tab" data-toggle="tab">Layers</a></li>
+					<li role="presentation"><a href="#sources" aria-controls="layers" role="tab" data-toggle="tab">Sources</a></li>
+					<li role="presentation"><a href="#disclaimer" aria-controls="disclaimer" role="tab" data-toggle="tab">Disclaimer</a></li>
+				</ul>
+				<div class="tab-content">
+					<!-- Layers tab -->
+					<div role="tabpanel" class="tab-pane active" id="layers">
 						<h4>Snow Removal Layers</h4>
 						<ul class="list-group">
 							<li class="list-group-item checkbox priorityItem" id="priorityItem">
@@ -53,20 +56,25 @@
 								<label for="priority">Snow Removal Priority - GEORGETOWN</label>
 								<div class="priorityLegend">
 									<div>
-										<svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #2196F3;stroke-width:1.75;" transform="rotate(90 8 8)"/></svg> Emergency
+										<svg height="16" width="16">
+											<line x1="0" y1="0" x2="16" y2="16" style="stroke: #2196F3;stroke-width:1.75;" transform="rotate(90 8 8)" />
+										</svg> Emergency
 									</div>
 									<div>
-										<svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #F44336;stroke-width:1.75;" transform="rotate(90 8 8)"/></svg> Secondary
+										<svg height="16" width="16">
+											<line x1="0" y1="0" x2="16" y2="16" style="stroke: #F44336;stroke-width:1.75;" transform="rotate(90 8 8)" />
+										</svg> Secondary
 									</div>
 									<div>
-										<svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #4CAF50;stroke-width:1.75;" transform="rotate(90 8 8)"/></svg> Tertiary
+										<svg height="16" width="16">
+											<line x1="0" y1="0" x2="16" y2="16" style="stroke: #4CAF50;stroke-width:1.75;" transform="rotate(90 8 8)" />
+										</svg> Tertiary
 									</div>
 									<div>
-										<svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #FFEE58;stroke-width:1.75;stroke-opacity:0.5;" transform="rotate(90 8 8)"/></svg> Not Prioritized
+										<svg height="16" width="16">
+											<line x1="0" y1="0" x2="16" y2="16" style="stroke: #FFEE58;stroke-width:1.75;stroke-opacity:0.5;" transform="rotate(90 8 8)" />
+										</svg> Not Prioritized
 									</div>
-									<!-- <div>
-										<svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #9E9E9E;stroke-width:1.75;stroke-opacity:0.5;" transform="rotate(90 8 8)"/></svg> Not Plowed by City
-									</div> -->
 								</div>
 							</li>
 
@@ -75,19 +83,29 @@
 								<label for="statePriority">Snow Removal Priority - STATE</label>
 								<div class="statePriorityLegend">
 									<div>
-										<svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #2196F3;stroke-width:1;" stroke-dasharray="3, 4" transform="rotate(90 8 8)"/></svg> A
+										<svg height="16" width="16">
+											<line x1="0" y1="0" x2="16" y2="16" style="stroke: #2196F3;stroke-width:1;" stroke-dasharray="3, 4" transform="rotate(90 8 8)" />
+										</svg> A
 									</div>
 									<div>
-										<svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #F44336;stroke-width:1;" stroke-dasharray="3, 4" transform="rotate(90 8 8)"/></svg> B
+										<svg height="16" width="16">
+											<line x1="0" y1="0" x2="16" y2="16" style="stroke: #F44336;stroke-width:1;" stroke-dasharray="3, 4" transform="rotate(90 8 8)" />
+										</svg> B
 									</div>
 									<div>
-										<svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #4CAF50;stroke-width:1;" stroke-dasharray="3, 4" transform="rotate(90 8 8)"/></svg> C
+										<svg height="16" width="16">
+											<line x1="0" y1="0" x2="16" y2="16" style="stroke: #4CAF50;stroke-width:1;" stroke-dasharray="3, 4" transform="rotate(90 8 8)" />
+										</svg> C
 									</div>
 									<div>
-										<svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #FFEE58;stroke-width:1;stroke-opacity:0.5;" stroke-dasharray="3, 4" transform="rotate(90 8 8)"/></svg> D
+										<svg height="16" width="16">
+											<line x1="0" y1="0" x2="16" y2="16" style="stroke: #FFEE58;stroke-width:1;stroke-opacity:0.5;" stroke-dasharray="3, 4" transform="rotate(90 8 8)" />
+										</svg> D
 									</div>
 									<div>
-										<svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #9E9E9E;stroke-width:1.75;stroke-opacity:0.5;" stroke-dasharray="3, 4" transform="rotate(90 8 8)"/></svg> U
+										<svg height="16" width="16">
+											<line x1="0" y1="0" x2="16" y2="16" style="stroke: #9E9E9E;stroke-width:1.75;stroke-opacity:0.5;" stroke-dasharray="3, 4" transform="rotate(90 8 8)" />
+										</svg> U
 									</div>
 								</div>
 							</li>
@@ -102,6 +120,7 @@
 							<li class="list-group-item checkbox bridgesItem">
 								<input type="checkbox" id="bridges" value="bridges" name="bridges">
 								<label for="bridges"><span></span> Bridges</label>
+							</li>
 							<li class="list-group-item checkbox curvesItem">
 								<input type="checkbox" id="curves" value="curves" name="curves">
 								<label for="curves"><span></span> Curves</label>
@@ -119,59 +138,61 @@
 								<label for="schools"><span></span> Schools</label>
 							</li>
 						</ul>
-						</div>
-						<!-- Sources tab -->
-						<div role="tabpanel" class="tab-pane" id="sources">
-							<ul>
-								<li><a href="https://github.com/gscplanning/snow-removal/blob/gh-pages/resources/data/Street_SnowPriority_GTOWN_20170104_WGS84.geojson">Snow Removal Priority - GEORGETOWN | GSCPC</a></li>
-								<li><a href="http://transportation.ky.gov/Maintenance/Documents/Snow%20and%20Ice%20Maps/SCOTT.pdf">Snow and Ice Property, Scott | KYTC</a></li>
-								<li><a href="https://github.com/gscplanning/snow-removal/blob/gh-pages/resources/data/gtownPlowZones_simple.geojson">Snow Removal Zones | GSCPC</a></li>
-								<li><a href="https://github.com/gscplanning/snow-removal/blob/gh-pages/resources/data/bridges.geojson">Bridges | GSCPC</a></li>
-								<li><a href="https://github.com/gscplanning/snow-removal/blob/gh-pages/resources/data/curves.geojson">Curves | GSCPC</a></li>
-								<li><a href="https://github.com/gscplanning/snow-removal/blob/gh-pages/resources/data/emergency_services.geojson">Emergency Services | GSCPC</a></li>
-								<li><a href="https://github.com/gscplanning/snow-removal/blob/gh-pages/resources/data/hills.geojson">Hills | GSCPC</a></li>
-								<li><a href="https://github.com/gscplanning/snow-removal/blob/gh-pages/resources/data/schools.geojson">Schools | GSCPC</a></li>
-							</ul>
-						</div>
-						<!-- Disclaimer tab -->
-						<div role="tabpanel" class="tab-pane" id="disclaimer">
-							<p>GEORGETOWN-SCOTT CO. PLANNING COMMISSION GEOGRAPHIC INFORMATION SYSTEM MAPPING</p>
-							<p>COPYRIGHT, LIMITATION OF LIABILITY AND ACCURACY STATEMENT</p>
-							<p>The following statement is applicable to all map products produced by the Georgetown-Scott County Planning Commission Geographic Information System (GSCPCGIS).  All rights reserved.</p>
-							<p>No part of this map may be reproduced or transmitted in any form or by any means, electronic or mechanical, including photocopying and recording, or by any information storage or retrieval system, except as expressly permitted in writing by GSCPCGIS. LIMITATION OF LIABILITY: GSCPCGIS has no indication or reason to believe that there are any inaccuracies or defects of information incorporated in this work and make NO REPRESENTATIONS OF ANY KIND, INCLUDING, BUT NOT LIMITED TO, THE WARRANTIES OR MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE, NOR ARE ANY SUCH WARRANTIES TO BE IMPLIED, WITH RESPECT TO THE INFORMATION OR DATA, FURNISHED HEREIN. INFORMATION SUPPLIED BY GSCPCGIS SHALL BE CONSIDERED GENERAL INFORMATION AND SHALL IN NO MANNER, BE USED IN LIEU OF ACTUAL ENGINEERING OR SURVEY DATA, OR APPLICABLE REGULATIONS AND REQUIREMENTS. APPLICANT FURTHER WARRANTS THAT THE INFORMATION PURCHASED SHALL BE USED EXCLUSIVELY FOR THE PURPOSE FOR WHICH IT WAS CREATED.</p>
-							<p>* Mapping available in digital or hard copy format in accordance with the adopted fee schedule and standards set out in the Records Request Form.</p>
-						</div>
+					</div>
+					<!-- Sources tab -->
+					<div role="tabpanel" class="tab-pane" id="sources">
+						<ul>
+							<li><a href="./resources/data/SnowRemovalPrioritization.zip">Snow Removal Priority - GEORGETOWN | GSCPC</a></li>
+							<li><a href="http://transportation.ky.gov/Maintenance/Documents/Snow%20and%20Ice%20Maps/SCOTT.pdf">Snow and Ice Property, Scott | KYTC</a></li>
+							<li><a href="./resources/data/gtownPlowZones_simple.geojson">Snow Removal Zones | GSCPC</a></li>
+							<li><a href="./resources/data/bridges.geojson">Bridges | GSCPC</a></li>
+							<li><a href="./resources/data/curves.geojson">Curves | GSCPC</a></li>
+							<li><a href="./resources/data/emergency_services.geojson">Emergency Services | GSCPC</a></li>
+							<li><a href="./resources/data/hills.geojson">Hills | GSCPC</a></li>
+							<li><a href="./resources/data/schools.geojson">Schools | GSCPC</a></li>
+						</ul>
+					</div>
+					<!-- Disclaimer tab -->
+					<div role="tabpanel" class="tab-pane" id="disclaimer">
+						<p>GEORGETOWN-SCOTT CO. PLANNING COMMISSION GEOGRAPHIC INFORMATION SYSTEM MAPPING</p>
+						<p>COPYRIGHT, LIMITATION OF LIABILITY AND ACCURACY STATEMENT</p>
+						<p>The following statement is applicable to all map products produced by the Georgetown-Scott County Planning Commission Geographic Information System (GSCPCGIS). All rights reserved.</p>
+						<p>No part of this map may be reproduced or transmitted in any form or by any means, electronic or mechanical, including photocopying and recording, or by any information storage or retrieval system, except as expressly permitted in writing by GSCPCGIS.
+							LIMITATION OF LIABILITY: GSCPCGIS has no indication or reason to believe that there are any inaccuracies or defects of information incorporated in this work and make NO REPRESENTATIONS OF ANY KIND, INCLUDING, BUT NOT LIMITED TO, THE WARRANTIES
+							OR MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE, NOR ARE ANY SUCH WARRANTIES TO BE IMPLIED, WITH RESPECT TO THE INFORMATION OR DATA, FURNISHED HEREIN. INFORMATION SUPPLIED BY GSCPCGIS SHALL BE CONSIDERED GENERAL INFORMATION AND SHALL IN NO MANNER,
+							BE USED IN LIEU OF ACTUAL ENGINEERING OR SURVEY DATA, OR APPLICABLE REGULATIONS AND REQUIREMENTS. APPLICANT FURTHER WARRANTS THAT THE INFORMATION PURCHASED SHALL BE USED EXCLUSIVELY FOR THE PURPOSE FOR WHICH IT WAS CREATED.</p>
+						<p>* Mapping available in digital or hard copy format in accordance with the adopted fee schedule and standards set out in the Records Request Form.</p>
 					</div>
 				</div>
-				<!-- Map pane -->
-				<div class="col-md-9 map-container">
-					<div id="map"></div>
-				</div>
 			</div>
-			<!-- Return to top button -->
-			<a href="#0" class="cd-top" title="Click to return to the menu">Top</a>
+			<!-- Map pane -->
+			<div class="col-md-9 map-container">
+				<div id="map"></div>
+			</div>
 		</div>
-		<!--<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>-->
-		<script src="vendors/leaflet/leaflet.js"></script>
-		<script src="vendors/leaflet-ajax/leaflet.ajax.min.js"></script>
-		<script src="vendors/leaflet-omnivore/leaflet-omnivore.min.js"></script>
-		<script src="vendors/leaflet-control-geocoder-1.3.2/Control.Geocoder.js"></script>
-		<script src="vendors/Leaflet-IconLayers/iconLayers.js"></script>
-		<script src="vendors/leaflet-grayscale/TileLayer.Grayscale.js"></script>
-		<script src="vendors/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
-		<script src="resources/js/tabContentResize.js"></script>
-		<script src="vendors/back-to-top/js/main.js"></script>
-		<script src="resources/js/app.js"></script>
+		<!-- Return to top button -->
+		<a href="#0" class="cd-top" title="Click to return to the menu">Top</a>
+	</div>
+	<script src="vendors/leaflet/leaflet.js"></script>
+	<script src="vendors/shapefile-js/shp.min.js"></script>
+	<script src="vendors/leaflet-control-geocoder-1.3.2/Control.Geocoder.js"></script>
+	<script src="vendors/Leaflet-IconLayers/iconLayers.js"></script>
+	<script src="vendors/leaflet-grayscale/TileLayer.Grayscale.js"></script>
+	<script src="vendors/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+	<script src="resources/js/tabContentResize.js"></script>
+	<script src="vendors/back-to-top/js/main.js"></script>
+	<script src="resources/js/app.js"></script>
 
-		<!--Google Analytics-->
-		<script>
-		  // (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		  // (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		  // m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		  // })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	<!--Google Analytics-->
+	<script>
+		// (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		// (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		// m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		// })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-		  // ga('create', 'UA-59507161-4', 'auto');
-		  // ga('send', 'pageview');
-		</script>
-	</body>
+		// ga('create', 'UA-59507161-4', 'auto');
+		// ga('send', 'pageview');
+	</script>
+</body>
+
 </html>
