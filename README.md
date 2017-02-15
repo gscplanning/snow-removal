@@ -2,13 +2,37 @@
 
 ## How to do stuff
 
-### Convert shapefile to geojson & topojson with [Mapshaper](https://github.com/mbloch/mapshaper)
+This map originally relied on exporting data from a feature class, reprojecting to WGS84, and then transforming into GeoJSON/TopoJSON. This workflow has been simplified with the help of [shapefile.js](https://github.com/calvinmetcalf/shapefile-js). Now the data need only to be exported to a shapefile, zipped and replaced on a webserver.
 
-`mapshaper data.shp -o data.geojson format=GeoJSON`
+There are 5 datasets included in the map. The city prioritization data is part of the StreetOwnership dataset. To map the plowing data, you'll need to create an event layer from the StreetNetwork layer. 
 
-`mapshaper data.geojson -o data.topojson format=TopoJSON`
+1. Open `SnowRemovalPrioritization_EDITOR.mxd`.
+2. Right-click the StreetOwnership table. If you are editing, make sure it is the table for your version.
+3. Navigate to and click **Display Route Event**.
+4. Fill out the fields for the route event layer:
+	- Route Reference: Streets
+	- Route Identifier: Local ID
+	- Event Table: <Current Table - It should be the StreetOwnership table>
+	- Route Identifier: Local ID
+	- Select *Line Events*
+	- From-Measure: From Point
+	- To-Measure: To Point
+	- Offset: <None>
+
+Export as a shapefile called `SnowRemovalPrioritization`. Zip the .shp, .shx, .dbf, and .prj files. The resulting zipped file should be called `SnowRemovalPrioritization.zip`. 
+
+The following four layers are in the GSCPC SnowRemovalPrioritzation feature dataset on SDE and after editing should be exported to a shapefile with the names below. Again, only the .shp, .shx, .dbf, and .prj files are necessary:
+
+1. `GeorgetownPlowZones` -> `GeorgetownPlowZones.zip`
+2. `Hazard_lines` -> `Hazard_lines.zip`
+3. `Hazard_pts` -> `Hazard_pts.zip`
+4. `State_SNIC` -> `State_SNIC.zip`
+
+As you update these layers, replace the old version in the directory `/resources/data/` of the map on the web server.
 
 ### Classification Guide
+
+Classification codes for the Georgetown priority layer
 
 #### General Ownership Codes
 
@@ -25,53 +49,14 @@
 - Secondary = x2
 - Tertiary = x3
 
-#### Ownership & Priority Codes
-
-For the GeoJSON file, these are the simplified classification codes
-
-- Primary/Emergency = 1
-- Secondary = 2
-- Tertiary = 3
-- City (Not Prioritized) = 4
-- State = 5
-- County = 6
-- Private = 7
-- Not Dedicated = 8
-- Other = 9
-
-##### Field Calculation for legend
-
-*In ArcGIS*
-
-1. Create a new field called `legend`. Make sure it's an integer.
-2. Right click the field, select **Field Calculator**.
-3. Set **Parser** to `Python`
-4. Use the code below to combine the different ownership/priority classifications in the legend.
-
-###### Pre-Code logic
-
-```python
-def legend(plow):
- if plow in ('31','51'):
-  return 1
- if plow in ('32','52'):
-  return 2
- if plow in ('33','53'):
-  return 3
- if plow in ('30'):
-  return 4
- else:
-  return 5
-```
-
-###### Function
-
-`legend = legend( !plow! )`
-
 ### Getting this thing online
 
 This map is available at [http://gscplanning.github.io/snow-removal/](http://gscplanning.github.io/snow-removal/ "gscplanning.github.io/snow-removal"), but we want to be able to access it from [http://gis.gscplanning.com/snow-removal
 ](http://gis.gscplanning.com/snow-removal). Really, just copy this project into the root directory of the webserver. If it's already there as older version, just remove it and replace with the most up-to-date version.
+
+### Sharing on GitHub
+
+This map was born out of work done by LFUCG GIS in 2015. Although this map is a complete rewrite and borrows no code from that map, in order to maintain the spirit of sharing, please push changes to the project repo on GitHub: [https://github.com/gscplanning/snow-removal](https://github.com/gscplanning/snow-removal).
 
 ### Contributors
 
