@@ -28,7 +28,7 @@
 	<script src="resources/js/preload.js"></script>
 </head>
 
-<body>
+<body onunload="clearCheckBoxes()">
 	<!-- Preloader -->
 	<div class="se-pre-con"></div>
 	<div class="container">
@@ -50,7 +50,7 @@
 						<h4>Snow Removal Layers</h4>
 						<ul class="list-group">
 							<li class="list-group-item checkbox priorityItem" id="priorityItem">
-								<input type="checkbox" id="priority" value="priority" name="priority" checked>
+								<input type="checkbox" id="priority" value="priority" name="priority" class="checked" checked>
 								<label for="priority">Snow Removal Priority - GEORGETOWN</label>
 								<div class="priorityLegend">
 									<div>
@@ -77,7 +77,7 @@
 							</li>
 
 							<li class="list-group-item checkbox statePriorityItem" id="statePriorityItem">
-								<input type="checkbox" id="statePriority" value="statePriority" name="statePriority" checked>
+								<input type="checkbox" id="statePriority" value="statePriority" name="statePriority" class="checked" checked>
 								<label for="statePriority">Snow Removal Priority - STATE</label>
 								<div class="statePriorityLegend">
 									<div>
@@ -180,6 +180,19 @@
 	<script src="resources/js/tabContentResize.js"></script>
 	<script src="vendors/back-to-top/js/main.js"></script>
 	<script src="resources/js/app.js"></script>
+	<script>
+	// This page returns all elements of the page to original state on reload. Addresses an issue in Firefox where checkboxes are kept checked or unchecked on reload, but the app only shows the layers that are supposed to be visible when the map loads. In effect, Firefox maintains the state of the checkboxes, but not the state of the map.
+	function clearCheckBoxes() {
+		var inputs = document.getElementsByTagName("input");
+		for (var i = 0; i < inputs.length; i++){
+			if (inputs[i].type === 'checkbox'){
+				if ($(inputs[i]).hasClass("checked") == false){
+						inputs[i].checked = false;
+				}
+			}
+		}
+	}
+	</script>
 
 	<!--Google Analytics-->
 	<script>
