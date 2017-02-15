@@ -8,48 +8,6 @@ var curves;
 var emergencyServices;
 var schools;
 
-//LOAD FEATURE LAYERS
-var hillsJSON = $.ajax({
-    url: "resources/data/hills.geojson",
-    dataType: "json",
-    success: console.log("Hills data loaded."),
-    error: function(xhr) {
-        console.log("Error loading Hills: ", xhr.statusText);
-    }
-});
-var bridgesJSON = $.ajax({
-    url: "resources/data/bridges.geojson",
-    dataType: "json",
-    success: console.log("Bridges data loaded."),
-    error: function(xhr) {
-        console.log("Error loading Bridges: ", xhr.statusText);
-    }
-});
-var curvesJSON = $.ajax({
-    url: "resources/data/curves.geojson",
-    dataType: "json",
-    success: console.log("Curves data loaded."),
-    error: function(xhr) {
-        console.log("Error loading Curves: ", xhr.statusText);
-    }
-});
-var emergencyServicesJSON = $.ajax({
-    url: "resources/data/emergency_services.geojson",
-    dataType: "json",
-    success: console.log("Emergency Services data loaded."),
-    error: function(xhr) {
-        console.log("Error loading Emergency Services: ", xhr.statusText);
-    }
-});
-var schoolsJSON = $.ajax({
-    url: "resources/data/schools.geojson",
-    dataType: "json",
-    success: console.log("Schools data loaded."),
-    error: function(xhr) {
-        console.log("Error loading Schools: ", xhr.statusText);
-    }
-});
-
 // Legend patches
 var priorityLegend = ('<div class="priorityLegend"><div><svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #2196F3;stroke-width:1.75;" transform="rotate(90 8 8)"/></svg> Emergency</div><div><svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #F44336;stroke-width:1.75;" transform="rotate(90 8 8)"/></svg> Secondary</div><div><svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #4CAF50;stroke-width:1.75;" transform="rotate(90 8 8)"/></svg> Tertiary</div><div><svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #FFEE58;stroke-width:1.75;stroke-opacity:0.5;" transform="rotate(90 8 8)"/></svg> Not Prioritized</div></div>');
 var statePriorityLegend = ('<div class="statePriorityLegend"><div><svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #2196F3;stroke-width:1;" stroke-dasharray="3, 4" transform="rotate(90 8 8)"/></svg> A</div><div><svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #F44336;stroke-width:1;" stroke-dasharray="3, 4" transform="rotate(90 8 8)"/></svg> B</div><div><svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #4CAF50;stroke-width:1;" stroke-dasharray="3, 4" transform="rotate(90 8 8)"/></svg> C</div><div><svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #FFEE58;stroke-width:1;" stroke-dasharray="3, 4" transform="rotate(90 8 8)"/></svg> D</div><div><svg height="16" width="16"><line x1="0" y1="0" x2="16" y2="16" style="stroke: #9E9E9E;stroke-width:1;stroke-opacity:0.5;" stroke-dasharray="3, 4" transform="rotate(90 8 8)"/></svg> U</div>');
@@ -138,211 +96,253 @@ var iconLayersControl = new L.Control.IconLayers(
 iconLayersControl.addTo(map);
 
 // ADD FEATURE DATA AND INTERACTION
-$.when(hillsJSON, bridgesJSON, curvesJSON, emergencyServicesJSON, schoolsJSON).done(function() {
-    // PRIORITY LAYER
-    function priorityColor(d) {
-        return d == 31 || d == 51 ? '#2196F3' :
-            d == 32 || d == 52 ? '#F44336' :
-            d == 33 || d == 53 ? '#4CAF50' :
-            d == 30 ? '#FFEE58' :
-            '#9E9E9E';
+// PRIORITY LAYER
+function priorityColor(d) {
+    return d == 31 || d == 51 ? '#2196F3' :
+        d == 32 || d == 52 ? '#F44336' :
+        d == 33 || d == 53 ? '#4CAF50' :
+        d == 30 ? '#FFEE58' :
+        '#9E9E9E';
+}
+
+function priorityOpacity(d) {
+    return d >= 31 && d <= 33 ? 1 :
+        d >= 51 && d <= 53 ? 1 :
+        d == 30 ? 0.5 :
+        0;
+}
+
+function priorityStyle(feature) {
+    var legend = feature.properties.plow;
+    return {
+        weight: 1.75,
+        color: priorityColor(legend),
+        opacity: priorityOpacity(legend),
+        lineCap: "butt",
+        lineJoin: "round"
+    };
+}
+
+priority = L.geoJson({
+    features: []
+}, {
+    style: priorityStyle,
+    pane: 'cityRoads'
+}).addTo(map);
+shp("./resources/data/SnowRemovalPrioritization.zip")
+    .then(function(data) {
+            priority.addData(data);
+        },
+        function(a) {
+            console.log(a);
+        });
+
+// STATE PRIORITY LAYER
+function statePriorityColor(d) {
+    return d == 'A' ? '#2196F3' :
+        d == 'B' ? '#F44336' :
+        d == 'C' ? '#4CAF50' :
+        d == 'D' ? '#FFEE58' :
+        d == 'U' ? '#9E9E9E' :
+        "fff";
+}
+
+function statePriorityOpacity(d) {
+    return d == 'A' ? 1 :
+        d == 'B' ? 1 :
+        d == 'C' ? 1 :
+        d == 'D' ? 1 :
+        d == 'U' ? 0.5 :
+        0;
+}
+
+function statePriorityStyle(feature) {
+    var snicPrior = feature.properties.SNIC_Prior;
+
+    return {
+        weight: 1.25,
+        color: statePriorityColor(snicPrior),
+        opacity: statePriorityOpacity(snicPrior),
+        dashArray: "3, 4",
+        lineCap: "butt",
+        lineJoin: "round"
+    };
+}
+
+statePriority = L.geoJson({
+    features: []
+}, {
+    style: statePriorityStyle,
+    attribution: 'KYTC',
+    pane: 'stateRoads'
+}).addTo(map);
+shp("./resources/data/State_SNIC.zip")
+    .then(function(data) {
+            statePriority.addData(data);
+        },
+        function(a) {
+            console.log(a);
+        });
+
+// ZONES LAYER
+function zonesColor(d) {
+    return d == 1 ? '#E74C3C' :
+        d == 2 ? '#2ECC71' :
+        d == 3 ? '#3498DB' :
+        d == 4 ? '#9B59B6' :
+        "fff";
+}
+
+function zonesStyle(feature) {
+    return {
+        fillColor: zonesColor(feature.properties.LABEL),
+        fillOpacity: 0.25,
+        weight: 0
+    };
+}
+zones = L.geoJson({
+    features: []
+}, {
+    style: zonesStyle,
+    pane: 'zones'
+});
+shp("./resources/data/GeorgetownPlowZones.zip")
+    .then(function(data) {
+            zones.addData(data);
+        },
+        function(a) {
+            console.log(a);
+        });
+// HAZARDS lAYERS
+// HAZARD POINTS
+// The hazard points layers are all from a single data set, Hazards_pts. A filter function is used to separate them into different layers based on their TYPE attribute
+// BRIDGES LAYER
+bridges = L.geoJSON({
+    features: []
+}, {
+    pointToLayer: function(feature, latlng) {
+        var bridgesIcon = L.icon({
+            iconUrl: 'resources/images/bridges-marker.svg',
+            iconSize: [20, 20],
+        });
+        var bridgesMarker = L.marker(latlng, {
+            icon: bridgesIcon
+        });
+        return bridgesMarker;
+    },
+    filter: function(feature, latlng) {
+        return feature.properties.TYPE == "bridge";
     }
-
-    function priorityOpacity(d) {
-        return d >= 31 && d <= 33 ? 1 :
-            d >= 51 && d <= 53 ? 1 :
-            d == 30 ? 0.5 :
-            0;
+});
+// CURVES LAYER
+curves = L.geoJSON({
+    features: []
+}, {
+    pointToLayer: function(feature, latlng) {
+        var curvesIcon = L.icon({
+            iconUrl: 'resources/images/curves-marker.svg',
+            iconSize: [18, 18],
+        });
+        var curvesMarker = L.marker(latlng, {
+            icon: curvesIcon
+        });
+        return curvesMarker;
+    },
+    filter: function(feature, latlng) {
+        return feature.properties.TYPE == "curve";
     }
-
-    function priorityStyle(feature) {
-        var legend = feature.properties.plow;
-        return {
-            weight: 1.75,
-            color: priorityColor(legend),
-            opacity: priorityOpacity(legend),
-            lineCap: "butt",
-            lineJoin: "round"
-        };
+});
+// EMERGENCY SERVICES LAYER
+emergencyServices = L.geoJSON({
+    features: []
+}, {
+    pointToLayer: function(feature, latlng) {
+        var emergencyServicesIcon = L.icon({
+            iconUrl: 'resources/images/emergency-services-marker.svg',
+            iconSize: [20, 20],
+        });
+        var emergencyServicesMarker = L.marker(latlng, {
+            icon: emergencyServicesIcon
+        });
+        return emergencyServicesMarker;
+    },
+    filter: function(feature, latlng) {
+        return feature.properties.TYPE == "emergency services";
     }
-
-    priority = L.geoJson({
-        features: []
-    }, {
-        style: priorityStyle,
-        pane: 'cityRoads'
-    }).addTo(map);
-    shp("./resources/data/SnowRemovalPrioritization.zip")
-        .then(function(data) {
-                priority.addData(data);
-            },
-            function(a) {
-                console.log(a);
-            });
-
-    // STATE PRIORITY LAYER
-    function statePriorityColor(d) {
-        return d == 'A' ? '#2196F3' :
-            d == 'B' ? '#F44336' :
-            d == 'C' ? '#4CAF50' :
-            d == 'D' ? '#FFEE58' :
-            d == 'U' ? '#9E9E9E' :
-            "fff";
+});
+// SCHOOLS LAYER
+schools = L.geoJSON({
+    features: []
+}, {
+    pointToLayer: function(feature, latlng) {
+        var schoolsIcon = L.icon({
+            iconUrl: 'resources/images/schools-marker.svg',
+            iconSize: [16, 16],
+        });
+        var schoolsMarker = L.marker(latlng, {
+            icon: schoolsIcon
+        });
+        return schoolsMarker;
+    },
+    filter: function(feature, latlng) {
+        return feature.properties.TYPE == "school";
     }
+});
+// LOAD HAZARD POINT DATA
+shp("./resources/data/Hazard_pts.zip")
+    .then(function(data) {
+            bridges.addData(data);
+            curves.addData(data);
+            emergencyServices.addData(data);
+            schools.addData(data);
+        },
+        function(a) {
+            console.log(a);
+        });
+// HAZARD LINES
+// The hazard lines layers are all from a single data set, Hazards_lines. A filter function is used to separate them into different layers based on their TYPE attribute
+// HILLS LAYER
+function hillsStyle(feature) {
+    return {
+        weight: 5,
+        color: "#fff",
+        opacity: 1,
+        dashArray: "3, 4",
+        lineCap: "butt"
+    };
+}
 
-    function statePriorityOpacity(d) {
-        return d == 'A' ? 1 :
-            d == 'B' ? 1 :
-            d == 'C' ? 1 :
-            d == 'D' ? 1 :
-            d == 'U' ? 0.5 :
-            0;
+hills = L.geoJSON({
+    features: []
+}, {
+    style: hillsStyle,
+    pane: 'hills',
+    filter: function(feature, latlng) {
+        return feature.properties.TYPE == "hill";
     }
+});
+// LOAD HAZARD LINES DATA
+shp("./resources/data/Hazard_lines.zip")
+    .then(function(data) {
+            hills.addData(data);
+        },
+        function(a) {
+            console.log(a);
+        });
 
-    function statePriorityStyle(feature) {
-        var snicPrior = feature.properties.SNIC_Prior;
+// Toggle layers and legend patches
+$("input").on("click", function(event) {
+    layerClicked = window[event.target.value];
+    layerClickedIDValue = event.target.id;
+    layerClickedItemID = "#" + layerClickedIDValue;
+    layerClickedItemClass = "." + layerClickedIDValue + "Item";
+    layerClickedItemLegendClass = "." + layerClickedIDValue + "Legend";
 
-        return {
-            weight: 1.25,
-            color: statePriorityColor(snicPrior),
-            opacity: statePriorityOpacity(snicPrior),
-            dashArray: "3, 4",
-            lineCap: "butt",
-            lineJoin: "round"
-        };
+    if (map.hasLayer(layerClicked)) {
+        map.removeLayer(layerClicked);
+        $(layerClickedItemLegendClass).remove();
+    } else {
+        map.addLayer(layerClicked);
+        $(layerClickedItemClass).append(window[layerClickedIDValue + "Legend"]);
     }
-
-    statePriority = L.geoJson({
-        features: []
-    }, {
-        style: statePriorityStyle,
-        attribution: 'KYTC',
-        pane: 'stateRoads'
-    }).addTo(map);
-    shp("./resources/data/State_SNIC.zip")
-        .then(function(data) {
-                statePriority.addData(data);
-            },
-            function(a) {
-                console.log(a);
-            });
-
-    // ZONES LAYER
-    function zonesColor(d) {
-        return d == 1 ? '#E74C3C' :
-            d == 2 ? '#2ECC71' :
-            d == 3 ? '#3498DB' :
-            d == 4 ? '#9B59B6' :
-            "fff";
-    }
-
-    function zonesStyle(feature) {
-        return {
-            fillColor: zonesColor(feature.properties.LABEL),
-            fillOpacity: 0.25,
-            weight: 0
-        };
-    }
-    zones = L.geoJson({
-        features: []
-    }, {
-        style: zonesStyle,
-        pane: 'zones'
-    });
-    shp("./resources/data/GeorgetownPlowZones.zip")
-        .then(function(data) {
-                zones.addData(data);
-            },
-            function(a) {
-                console.log(a);
-            });
-
-    // BRIDGES LAYER
-    bridges = L.geoJSON(bridgesJSON.responseJSON, {
-        pointToLayer: function(feature, latlng) {
-            var bridgesIcon = L.icon({
-                iconUrl: 'resources/images/bridges-marker.svg',
-                iconSize: [20, 20],
-            });
-            var bridgesMarker = L.marker(latlng, {
-                icon: bridgesIcon
-            });
-            return bridgesMarker;
-        }
-    });
-
-    // CURVES LAYER
-    curves = L.geoJSON(curvesJSON.responseJSON, {
-        pointToLayer: function(feature, latlng) {
-            var curvesIcon = L.icon({
-                iconUrl: 'resources/images/curves-marker.svg',
-                iconSize: [18, 18],
-            });
-            var curvesMarker = L.marker(latlng, {
-                icon: curvesIcon
-            });
-            return curvesMarker;
-        }
-    });
-
-    // EMERGENCY SERVICES LAYER
-    emergencyServices = L.geoJSON(emergencyServicesJSON.responseJSON, {
-        pointToLayer: function(feature, latlng) {
-            var emergencyServicesIcon = L.icon({
-                iconUrl: 'resources/images/emergency-services-marker.svg',
-                iconSize: [20, 20],
-            });
-            var emergencyServicesMarker = L.marker(latlng, {
-                icon: emergencyServicesIcon
-            });
-            return emergencyServicesMarker;
-        }
-    });
-
-    // HILLS LAYER
-    function hillsStyle(feature) {
-        return {
-            weight: 5,
-            color: "#fff",
-            opacity: 1,
-            dashArray: "3, 4",
-            lineCap: "butt"
-        };
-    }
-
-    hills = L.geoJSON(hillsJSON.responseJSON, {
-        style: hillsStyle,
-        pane: 'hills'
-    });
-
-    // SCHOOLS LAYER
-    schools = L.geoJSON(schoolsJSON.responseJSON, {
-        pointToLayer: function(feature, latlng) {
-            var schoolsIcon = L.icon({
-                iconUrl: 'resources/images/schools-marker.svg',
-                iconSize: [16, 16],
-            });
-            var schoolsMarker = L.marker(latlng, {
-                icon: schoolsIcon
-            });
-            return schoolsMarker;
-        }
-    });
-
-    // Toggle layers and legend patches
-    $("input").on("click", function(event) {
-        layerClicked = window[event.target.value];
-        layerClickedIDValue = event.target.id;
-        layerClickedItemID = "#" + layerClickedIDValue;
-        layerClickedItemClass = "." + layerClickedIDValue + "Item";
-        layerClickedItemLegendClass = "." + layerClickedIDValue + "Legend";
-
-        if (map.hasLayer(layerClicked)) {
-            map.removeLayer(layerClicked);
-            $(layerClickedItemLegendClass).remove();
-        } else {
-            map.addLayer(layerClicked);
-            $(layerClickedItemClass).append(window[layerClickedIDValue + "Legend"]);
-        }
-    });
 });

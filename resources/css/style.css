@@ -26,15 +26,15 @@ body {
 .nav-tabs>li>a {
 	color: #ecf0f1;
 }
-.nav-tabs>li>a:focus, 
+.nav-tabs>li>a:focus,
 .nav-tabs>li>a:hover {
 	background-color: #34495e;
 	border-color: transparent;
 	box-shadow: 0.5px -0.5px 5px -1px rgba(0,0,0,0.5);
 
 }
-.nav-tabs>li.active>a, 
-.nav-tabs>li.active>a:focus, 
+.nav-tabs>li.active>a,
+.nav-tabs>li.active>a:focus,
 .nav-tabs>li.active>a:hover {
 	background-color: #fff;
 	color: #34495e;
@@ -56,6 +56,9 @@ body {
 .list-group-item {
 	background-color: transparent;
 	border: 0px;
+}
+.checkbox input[type=checkbox] {
+	margin-left: -10px;
 }
 
 #sources a {
